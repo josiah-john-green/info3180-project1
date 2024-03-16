@@ -5,9 +5,11 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file contains the routes for your application.
 """
 
-from app import app
-from flask import render_template, request, redirect, url_for
-
+import os
+from flask import render_template, flash, redirect, url_for
+from app import app, db
+from app.forms import PropertyForm
+from app.models import Property
 
 ###
 # Routing for your application.
@@ -22,7 +24,38 @@ def home():
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="Josiah-John Green")
+
+@app.route('/properties')
+def properties():
+    """Render the website's properties page."""
+    return render_template('properties.html')
+
+@app.route('/properties/create', methods=['GET', 'POST'])
+def create():
+
+    form = PropertyForm()
+
+    if form.validate_on_submit():
+        property = Property(
+            title=form.title.data,
+            description=form.description.data,
+            bedrooms=form.bedrooms.data,
+            bathrooms=form.bathrooms.data,
+            price=form.price.data,
+            type=form.type.data,
+            location=form.location.data,
+            photo=form.photo.data.filename  # Assuming photo is uploaded using Flask-WTF FileField
+        )
+        db.session.add(property)
+        db.session.commit()
+        
+        flash('Property added successfully!', 'success')
+        return redirect(url_for('home'))
+    else:
+        flash_errors(form)
+
+    return render_template('create.html', form=form)
 
 
 ###
@@ -30,6 +63,7 @@ def about():
 ###
 
 # Display Flask WTF errors as Flash messages
+
 def flash_errors(form):
     for field, errors in form.errors.items():
         for error in errors:

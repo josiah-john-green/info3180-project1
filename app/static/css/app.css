@@ -1,3 +1,82 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+body 
+{
+    
+    background-color:rgb(247, 247, 247);
+    font-family: "Jost", sans-serif;
     padding-top: 5rem;
+
 }
+
+.card
+{
+
+    border: none;
+    padding: 20px 40px 20px 20px;
+
+}
+
+
+.card-body
+{
+
+    width: 65rem;
+
+}
+
+.form-group
+{
+
+    padding: 10px 0px 10px 0px;
+
+}
+
+.form-label
+{
+
+    font-weight: bold;
+    padding: 10px 0px 10px 0px;
+    margin: 0px;
+
+}
+
+.form-control .file
+{
+
+    /* display: none; */ 
+    padding: 10px 0px 20px 0px;
+
+}
+
+/* 
+
+input[type="file"]
+{
+
+    display: none;
+
+} 
+
+*/
+
+.row
+{
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+}
+
+.btn
+{
+
+    border-radius: 4px;
+
+}
+
+
+
+
+
+
