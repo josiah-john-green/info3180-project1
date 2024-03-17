@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Epilogue:ital,wght@0,100..900;1,100..900&family=Golos+Text:wght@400..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Sen:wght@400..800&family=Syne:wght@400..800&display=swap');
 
 body 
 {
@@ -10,10 +10,25 @@ body
 
 }
 
-.nav-item, .navbar-brand 
+.bi
 {
 
-    padding: 0 20px;
+    padding-right: 5px;
+
+}
+
+.nav-item
+{
+
+    padding: 0 10px;
+
+}
+
+.navbar-brand 
+{
+
+    padding: 10px;
+    gap: 10px
 
 }
 
@@ -49,15 +64,6 @@ input[type="file"]
 
 }
 
-.image
-{
-
-    width: auto;
-    height: 20rem;
-
-
-}
-
 .columns
 {
 
@@ -81,31 +87,21 @@ input[type="file"]
 
     margin: 300px 100px 100px 100px;
 
-
 }
 
-.property .columns
+.image
 {
 
-    grid-gap: 5px;
-
-}
-
-.property .information .columns
-{
-
-    grid-gap: 5px;
-    grid-template-columns: repeat(2, 100px);
-
+    width: auto;
+    height: auto;
 
 }
 
 .property .image
 {
 
-    height: 25rem;
-    width: 30rem;
-
+    width: 100%;
+    height: 100%;
 
 }
 
@@ -114,6 +110,15 @@ input[type="file"]
 
     font-size: 20px;
     font-weight: 550;
+
+}
+
+.properties
+{
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    grid-gap: 15px;
 
 }
 
@@ -140,6 +145,15 @@ input[type="file"]
 
 }
 
+.information
+{
+
+    font-weight: 450;
+    font-size: 15px;
+    padding: 20px;  
+
+}
+
 .information div
 {
 
@@ -155,16 +169,19 @@ input[type="file"]
 
 }
 
-.information
+.information .overview
 {
 
-    font-weight: 450;
-    font-size: 15px;
-    padding: 20px;
-    
+    display: grid;
+    grid-template-columns: repeat(2, 400px);
+    grid-gap: 10px;
 
 }
 
+.information .rooms
+{
 
+    display: grid;
+    grid-template-columns: repeat(2, 130px);
 
-
+}
