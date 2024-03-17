@@ -1,13 +1,32 @@
 {% extends "base.html" %}
 
 {% block main %}
-<div class="container">
-    <h1>{{ property.title }}</h1>
-    <p><strong>Description:</strong> {{ property.description }}</p>
-    <p><strong>Bedrooms:</strong> {{ property.bedrooms }}</p>
-    <p><strong>Bathrooms:</strong> {{ property.bathrooms }}</p>
-    <p><strong>Price:</strong> ${{ property.price }}</p>
-    <p><strong>Type:</strong> {{ property.type }}</p>
-    <p><strong>Location:</strong> {{ property.location }}</p>
+<div class="property card shadow" style="border: none;">
+    <div class="card body columns" style="border: none;">
+        <div class="photo">
+            <img src="{{ url_for('photo', filename=property.photo) }}" style="border: none; border-radius: 10px 0 0 10px;" class="image card-img-top" alt="{{ property.photo.label }}">
+        </div>
+
+        <div class="information">
+            <div class="title">{{ property.title }}</div>
+
+            <div class="columns">
+                <div class="price btn">{{ property.price }}</div>
+                <div class="type btn">{{ property.type }}</div>
+            </div>
+
+            <div class="description">{{ property.description }}</div>
+
+            <div class="columns">
+                <div class="bedrooms"><i class="bi bi-building"></i> {{ property.bedrooms }}</div>
+                <div class="bathrooms"> <i class="bi bi-water"></i> {{ property.bathrooms }}</div>
+            </div>
+
+            <div class="location"><i class="bi bi-geo-alt"></i> {{ property.location }}</div>
+            <br> 
+            <button type="submit" class="btn btn-primary" style="border-radius: 4px; margin-top: 8px;">Email Realtor</button>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

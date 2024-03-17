@@ -58,7 +58,7 @@ def create():
         db.session.commit()
         
         flash('Property added successfully!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('properties'))
     else:
         flash_errors(form)
 

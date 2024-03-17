@@ -7,12 +7,12 @@ class PropertyForm(FlaskForm):
     title = StringField('Property Title', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     
-    bedrooms = IntegerField('No. of Rooms', validators=[DataRequired()])
-    bathrooms = IntegerField('No. of Bathrooms', validators=[DataRequired()])
+    bedrooms = StringField('No. of Rooms', validators=[DataRequired()])
+    bathrooms = StringField('No. of Bathrooms', validators=[DataRequired()])
     
-    price = IntegerField('Price', validators=[DataRequired()])
+    price = StringField('Price', validators=[DataRequired()])
     type = SelectField('Property Type', choices=[('House', 'House'), ('Apartment', 'Apartment')], validators=[DataRequired()])
 
-    location = StringField('Location', validators=[DataRequired()], render_kw={"class": "tyoe-select"})
+    location = StringField('Location', validators=[DataRequired()])
     
     photo = FileField('Photo')
