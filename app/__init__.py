@@ -2,11 +2,15 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate  # Import Flask-Migrate here
-from .config import Config
+from flask_mail import Mail 
+from app.config import Config
 
 # Initialize Flask application
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# Instantiate Mail here
+mail = Mail(app) 
 
 # Initialize SQLAlchemy
 db = SQLAlchemy(app)

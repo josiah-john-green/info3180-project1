@@ -24,7 +24,8 @@
 
             <div class="location"><i class="bi bi-geo-alt"></i> {{ property.location }}</div>
             <br> 
-            <button type="submit" class="btn btn-primary" style="border-radius: 4px; background-color: #14b7a7; border: none;">Email Realtor</button>
+            <a href="{{ url_for('email', propertyid=propertyid) }}" class="btn" style="background-color: #14b7a7; color: white; font-weight: medium; border: none; border-radius: 5px;">Email Realtor</a>
+ 
         </div>
     </div>
 

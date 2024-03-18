@@ -5,44 +5,39 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file contains the routes for your application.
 """
 
-import os
-from flask import render_template, request, redirect, url_for, flash, session, abort, send_from_directory
+from flask import render_template, request, redirect, url_for, flash, send_from_directory
 from werkzeug.utils import secure_filename
-from app import app, db
-from app.forms import PropertyForm
+import os
+from app import app, db, mail
+from app.forms import PropertyForm, ContactForm  
 from app.models import Property
-from app.utils import get_uploaded_images
+from flask_mail import Message
 
-###
-# Routing for your application.
-###
-
+# Render website's home page
 @app.route('/')
 def home():
-    """Render website's home page."""
     return render_template('home.html')
 
-
+# Render the website's about page
 @app.route('/about/')
 def about():
-    """Render the website's about page."""
     return render_template('about.html', name="Josiah-John Green")
 
+# Render the website's property listing page
 @app.route('/properties')
 def properties():
-    """Render the website's propery listing page."""
     properties = Property.query.all()
     return render_template('properties.html', properties=properties)
 
+# Render the website's property creation page
 @app.route('/properties/create', methods=['GET', 'POST'])
 def create():
-    """Render the website's property creation page."""
     form = PropertyForm()
 
     if form.validate_on_submit():
-        photo = form.photo.data  # Access the uploaded file
-        filename = secure_filename(photo.filename)  # Secure the filename
-        photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))  # Save the photo to the designated folder
+        photo = form.photo.data
+        filename = secure_filename(photo.filename)
+        photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         property = Property(
             title=form.title.data,
@@ -52,7 +47,7 @@ def create():
             price=form.price.data,
             type=form.type.data,
             location=form.location.data,
-            photo=filename  # Store the filename in the database
+            photo=filename
         )
         db.session.add(property)
         db.session.commit()
@@ -64,23 +59,44 @@ def create():
 
     return render_template('create.html', form=form)
 
+# Serve uploaded photos
 @app.route('/uploads/<filename>')
 def photo(filename):
-    """Render the page for a specific property."""
     return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
 
+# Render the page for a specific property
 @app.route('/properties/<int:propertyid>')
 def view(propertyid):
-    """Render the page for a specific property."""
     property = Property.query.get_or_404(propertyid)
-    return render_template('view.html', property=property)
+    return render_template('view.html', property=property, propertyid=propertyid)
 
-###
-# The functions below should be applicable to all Flask apps.
-###
+
+# Process and send email
+@app.route('/email/<int:propertyid>', methods=['GET', 'POST'])
+def email(propertyid):
+    form = ContactForm()
+    property = Property.query.get_or_404(propertyid)
+
+    if form.validate_on_submit():
+        try:
+            name = form.name.data
+            email = form.email.data
+            subject = form.subject.data
+            message = form.message.data
+
+            msg = Message(subject, sender=(name, email), recipients=["to@example.com"])
+            msg.body = f"From: {name}\nEmail: {email}\nSubject: {subject}\n\n{message}"
+            mail.send(msg)
+
+            flash('Your message has been sent successfully!', 'success')
+            return redirect(url_for('properties'))
+
+        except Exception as e:
+            flash(f"An error occurred: {str(e)}", 'danger')
+
+    return render_template('email.html', form=form, property=property)  # Pass the 'property' variable to the template
 
 # Display Flask WTF errors as Flash messages
-
 def flash_errors(form):
     for field, errors in form.errors.items():
         for error in errors:
@@ -88,6 +104,8 @@ def flash_errors(form):
                 getattr(form, field).label.text,
                 error
             ), 'danger')
+
+# Additional routes and error handling
 
 @app.route('/<file_name>.txt')
 def send_text_file(file_name):
@@ -112,3 +130,5 @@ def add_header(response):
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
+
+

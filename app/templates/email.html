@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+{% if error %}
+  <div class="alert alert-danger" role="alert">
+    <strong>Error:</strong> {{ error }}
+  </div>
+{% endif %}
+
+<div class="contact card shadow" style="border: none;">
+  <div class="card-body columns" style="border: none;">
+
+    <div class="photo" style="border: none;">
+        <img src="{{ url_for('photo', filename=property.photo) }}" class="image" style="border: none; border-radius: 10px 0 0 10px;"  alt="{{ property.photo.label }}">
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="emailing">
+
+      {{ form.hidden_tag() }}
+
+      <div class="estate">
+        <div class="title">{{ property.title }}</div>
+
+        <div class="info">
+            <div class="price btn">{{ property.price }}</div>
+            <div class="type btn">{{ property.type }}</div>
+        </div>
+
+        <div class="description">{{ property.description }}</div>
+      </div>
+
+      <br>   
+
+      <div class="forming">  
+
+        <div class="details">
+              <div class="name">{{ form.name(class="form-control name", placeholder="Name", required=required) }}</div>
+              <div class="mail">{{ form.email(class="form-control mail", placeholder="Email", required=required) }}</div>
+        </div>
+
+        <div class="subject">{{ form.subject(class="form-control subject", placeholder="Subject", required=required) }}</div>
+
+        <div class="message" placeholder="Message">{{ form.message(class="form-control message", placeholder="Message", required=required) }}</div>
+      </div>
+      
+      <div class="submission">
+        <button type="submit" class="btn" style="background-color: #14b7a7; color: white; font-weight: medium; border: none; border-radius: 5px;"> Send Email </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+{% endblock %}
